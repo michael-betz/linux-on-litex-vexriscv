@@ -25,10 +25,9 @@
 
 ## SD card
   * Connect a Digilent Pmod MicroSD to `J14`
-  * Format a SD card with 3 partitions as such:
-    * FAT16, 200 MB, for kernel and bootloader, label: BOOT
-    * EXT4, 5 GB, for linux system files, label: ROOTFS
-    * EXT4, remaining size, for home directory / persistent storage of files
+  * Format a SD card with 2 partitions as such:
+    * FAT32, 200 MB, for kernel, bootloader and rootfs. The litex bios will copy the content of these files to RAM and then boot linux. In linux this partition is normally not used but mounted under /boot for convenience
+    * EXT4, 1 GB or more, used as persistent storage, will be mounted as /root, which is the home directory of the root user
 
 Copy these files from the `linux-on-litex-vexriscv/images` directory to the BOOT partition
 
@@ -40,11 +39,6 @@ Copy these files from the `linux-on-litex-vexriscv/images` directory to the BOOT
 └── rv32.dtb
 ```
 
-Then copy the rootfs image:
-
-```bash
-sudo dd if=rootfs.ext4 of=/dev/mmcblk0p2 bs=1M
-```
 That's it, this SD card should boot the Obsidian into linux.
 
 __Initial user and password is root / root.__
