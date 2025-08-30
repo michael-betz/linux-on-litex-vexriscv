@@ -15,6 +15,81 @@
 > **Note:** Tested on Ubuntu 18.04/20.04 LTS.
 
 
+# Obsidian specific notes
+  * To build the .bit file, run `./build_obsidian.sh --build`, which will build a SoC with
+    2 RISC-V 32 bit CPU cores without FPU.
+  * This CPU variant comes pre-generated with litex, so one doesn't have to install
+    the SpinalHDL development environment to generate a custom VexRiscv
+  * Use `./build_obsidian.sh --load` to configure the FPGA
+  * Use `./build_obsidian.sh --flash` to upload the FPGA configuration to the Obsidians SPI flash, so it boots automatically on power-up
+
+## SD card
+  * Connect a Digilent Pmod MicroSD to `J14`
+  * Format a SD card with 3 partitions as such:
+    * FAT16, 200 MB, for kernel and bootloader, label: BOOT
+    * EXT4, 5 GB, for linux system files, label: ROOTFS
+    * EXT4, remaining size, for home directory / persistent storage of files
+
+Copy these files from the `linux-on-litex-vexriscv/images` directory to the BOOT partition
+
+```
+/media/BOOT/
+├── boot.json
+├── Image
+├── opensbi.bin
+└── rv32.dtb
+```
+
+Then copy the rootfs image:
+
+```bash
+sudo dd if=rootfs.ext4 of=/dev/mmcblk0p2 bs=1M
+```
+That's it, this SD card should boot the Obsidian into linux.
+Initial user and password is root / root.
+
+```
+pyserial-miniterm /dev/ttyUSB1 115200 --raw --eol LF
+
+
+```
+
+## Linux image
+The linux image has been slightly customized from the litex initial configuration
+
+  * Run from read and writable rootfs partition on SD-card by default
+  * Include dropbear ssh server
+  * Include upython and dhrystone benchmark
+  * Mount the /dev/mmcblk0p3 partition under /root, which is also the home directory
+    of the root user.
+  * Initialize network interface with static IP: 192.168.1.50/24
+  * Mounting options and IP settings are customized under:
+    `linux-on-litex-vexriscv/buildroot/board/litex_vexriscv/rootfs_overlay`. Look at
+    the `fstab` and `network/interfaces` config files in this directory
+
+to customize the linux image, install buildroot, then:
+
+```
+cd buildroot
+make BR2_EXTERNAL=../linux-on-litex-vexriscv/buildroot/ obsidian_a35_defconfig
+
+make menuconfig
+
+# customize buildroot (packages, system settings, etc)
+
+make
+
+# if the build succeeds, a new rootfs image appears:
+
+ll output/images/rootfs.ext2
+  60M Aug 30 18:47 output/images/rootfs.ext2
+
+# overwrite the rootfs partition on the SD card with it
+
+sudo dd if=output/images/rootfs.ext2 of=/dev/mmcblk0p2 bs=1M
+```
+
+
 [> Intro
 --------
 
@@ -136,7 +211,7 @@ $ export PATH=$PATH:$PWD/riscv64-unknown-elf-gcc-8.1.0-2019.01.0-x86_64-linux-ub
 
 [> Installing SBT (Only required for custom CPU configs)
 --------------------------------
-Some regular VexRiscv-smp configuration are already pregenerated, 
+Some regular VexRiscv-smp configuration are already pregenerated,
 but for others, it need to run som SpinalHDL hardware generation, which require sbt.
 
 Please visit: https://www.scala-sbt.org/1.x/docs/Installing-sbt-on-Linux.html#Installing+sbt+on+Linux

@@ -81,6 +81,7 @@ def SoCLinux(soc_cls, **kwargs):
             with open(json_src) as json_file, open(dts, "w") as dts_file:
                 dts_content = generate_dts(json.load(json_file),
                     initrd      = initrd,
+                    initrd_size = 1024 * 1024 * 32,
                     polling     = False,
                     root_device = rootfs
                 )
