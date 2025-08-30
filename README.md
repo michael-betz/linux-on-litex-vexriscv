@@ -46,20 +46,279 @@ Then copy the rootfs image:
 sudo dd if=rootfs.ext4 of=/dev/mmcblk0p2 bs=1M
 ```
 That's it, this SD card should boot the Obsidian into linux.
-Initial user and password is root / root.
+
+__Initial user and password is root / root.__
 
 ```
-pyserial-miniterm /dev/ttyUSB1 115200 --raw --eol LF
+$ pyserial-miniterm /dev/ttyUSB1 115200 --raw --eol LF
 
+--- Miniterm on /dev/ttyUSB1  115200,8,N,1 ---
+--- Quit: Ctrl+] | Menu: Ctrl+T | Help: Ctrl+T followed by Ctrl+H ---
+
+        __   _ __      _  __
+       / /  (_) /____ | |/_/
+      / /__/ / __/ -_)>  <
+     /____/_/\__/\__/_/|_|
+   Build your hardware, easily!
+
+ (c) Copyright 2012-2025 Enjoy-Digital
+ (c) Copyright 2007-2015 M-Labs
+
+ BIOS CRC passed (ee25fcc2)
+
+ LiteX git sha1: f98b288e9
+
+--=============== SoC ==================--
+CPU:    VexRiscv SMP-LINUX @ 125MHz
+BUS:    wishbone 32-bit @ 4GiB
+CSR:    32-bit data
+ROM:    64.0KiB
+SRAM:   6.0KiB
+SDRAM:    8.0GiB 16-bit @ 1000MT/s (CL-8 CWL-6)
+MAIN-RAM: 512.0MiB
+
+--========== Initialization ============--
+Ethernet init...
+Local IP: 192.168.1.50
+
+Initializing SDRAM @0x40000000...
+Switching SDRAM to software control.
+Read leveling:
+  m0, b00: |00000000000000000000000000000000| delays: -
+  m0, b01: |00000000000000000000000000000000| delays: -
+  m0, b02: |11100000000000000000000000000000| delays: 01+-01
+  m0, b03: |00000111111111100000000000000000| delays: 09+-04
+  m0, b04: |00000000000000000011111111100000| delays: 22+-04
+  m0, b05: |00000000000000000000000000000001| delays: -
+  m0, b06: |00000000000000000000000000000000| delays: -
+  m0, b07: |00000000000000000000000000000000| delays: -
+  best: m0, b03 delays: 09+-04
+  m1, b00: |00000000000000000000000000000000| delays: -
+  m1, b01: |00000000000000000000000000000000| delays: -
+  m1, b02: |11100000000000000000000000000000| delays: 01+-01
+  m1, b03: |00000011111111110000000000000000| delays: 10+-04
+  m1, b04: |00000000000000000001111111110000| delays: 23+-04
+  m1, b05: |00000000000000000000000000000000| delays: -
+  m1, b06: |00000000000000000000000000000000| delays: -
+  m1, b07: |00000000000000000000000000000000| delays: -
+  best: m1, b03 delays: 10+-04
+Switching SDRAM to hardware control.
+Memtest at 0x40000000 (2.0MiB)...
+  Write: 0x40000000-0x40200000 2.0MiB
+   Read: 0x40000000-0x40200000 2.0MiB
+Memtest OK
+Memspeed at 0x40000000 (Sequential, 2.0MiB)...
+  Write speed: 207.4MiB/s
+   Read speed: 109.0MiB/s
+
+--============== Boot ==================--
+Booting from serial...
+Press Q or ESC to abort boot completely.
+sL5DdSMmkekro
+Timeout
+Booting from SDCard in SD-Mode...
+Booting from boot.json...
+Copying Image to 0x40000000 (8764048 bytes)...
+[########################################]
+Copying rv32.dtb to 0x40ef0000 (3711 bytes)...
+[########################################]
+Copying opensbi.bin to 0x40f00000 (263652 bytes)...
+[########################################]
+Executing booted program at 0x40f00000
+
+--============= Liftoff! ===============--
+
+OpenSBI v1.3
+   ____                    _____ ____ _____
+  / __ \                  / ____|  _ \_   _|
+ | |  | |_ __   ___ _ __ | (___ | |_) || |
+ | |  | | '_ \ / _ \ '_ \ \___ \|  _ < | |
+ | |__| | |_) |  __/ | | |____) | |_) || |_
+  \____/| .__/ \___|_| |_|_____/|____/_____|
+        | |
+        |_|
+
+Platform Name             : LiteX / VexRiscv-SMP
+Platform Features         : medeleg
+Platform HART Count       : 8
+Platform IPI Device       : aclint-mswi
+Platform Timer Device     : aclint-mtimer @ 100000000Hz
+Platform Console Device   : litex_uart
+Platform HSM Device       : ---
+Platform PMU Device       : ---
+Platform Reboot Device    : ---
+Platform Shutdown Device  : ---
+Platform Suspend Device   : ---
+Platform CPPC Device      : ---
+Firmware Base             : 0x40f00000
+Firmware Size             : 376 KB
+Firmware RW Offset        : 0x40000
+Firmware RW Size          : 120 KB
+Firmware Heap Offset      : 0x52000
+Firmware Heap Size        : 48 KB (total), 3 KB (reserved), 8 KB (used), 36 KB (free)
+Firmware Scratch Size     : 4096 B (total), 452 B (used), 3644 B (free)
+Runtime SBI Version       : 1.0
+
+Domain0 Name              : root
+Domain0 Boot HART         : 0
+Domain0 HARTs             : 0*,1*,2*,3*,4*,5*,6*,7*
+Domain0 Region00          : 0xf0018000-0xf001bfff M: (I,R,W) S/U: ()
+Domain0 Region01          : 0xf0010000-0xf0017fff M: (I,R,W) S/U: ()
+Domain0 Region02          : 0x40f40000-0x40f5ffff M: (R,W) S/U: ()
+Domain0 Region03          : 0x40f00000-0x40f3ffff M: (R,X) S/U: ()
+Domain0 Region04          : 0x00000000-0xffffffff M: (R,W,X) S/U: (R,W,X)
+Domain0 Next Address      : 0x40000000
+Domain0 Next Arg1         : 0x40ef0000
+Domain0 Next Mode         : S-mode
+Domain0 SysReset          : yes
+Domain0 SysSuspend        : yes
+
+Boot HART ID              : 0
+Boot HART Domain          : root
+Boot HART Priv Version    : unknown
+Boot HART Base ISA        : rv32ima
+Boot HART ISA Extensions  : zicntr
+Boot HART PMP Count       : 0
+Boot HART PMP Granularity : 0
+Boot HART PMP Address Bits: 0
+Boot HART MHPM Count      : 0
+Boot HART MIDELEG         : 0x00000222
+Boot HART MEDELEG         : 0x0000b101
+[    0.000000] Linux version 6.9.0 (michael@kebab) (riscv32-buildroot-linux-gnu-gcc.br_real (Buildroot 2025.08-rc2-9-gc53f5e78fc) 13.4.0, GNU ld (GNU Binutils) 2.43.1) #1 SMP Sat Aug 30 17:58:47 CEST 2025
+[    0.000000] Machine model: berkeleylab_obsidian
+[    0.000000] SBI specification v1.0 detected
+[    0.000000] SBI implementation ID=0x1 Version=0x10003
+[    0.000000] SBI TIME extension detected
+[    0.000000] SBI IPI extension detected
+[    0.000000] SBI RFENCE extension detected
+[    0.000000] earlycon: liteuart0 at I/O port 0x0 (options '')
+[    0.000000] Malformed early option 'console'
+[    0.000000] earlycon: liteuart0 at MMIO 0xf0001000 (options '')
+[    0.000000] printk: legacy bootconsole [liteuart0] enabled
+[    0.000000] OF: reserved mem: OVERLAP DETECTED!
+[    0.000000] mmode_resv1@40f00000 (0x40f00000--0x40f40000) overlaps with opensbi@40f00000 (0x40f00000--0x40f80000)
+[    0.000000] OF: reserved mem: OVERLAP DETECTED!
+[    0.000000] opensbi@40f00000 (0x40f00000--0x40f80000) overlaps with mmode_resv0@40f40000 (0x40f40000--0x40f60000)
+[    0.000000] OF: reserved mem: 0x40f00000..0x40f3ffff (256 KiB) nomap non-reusable mmode_resv1@40f00000
+[    0.000000] OF: reserved mem: 0x40f00000..0x40f7ffff (512 KiB) map non-reusable opensbi@40f00000
+[    0.000000] OF: reserved mem: 0x40f40000..0x40f5ffff (128 KiB) nomap non-reusable mmode_resv0@40f40000
+[    0.000000] Zone ranges:
+[    0.000000]   Normal   [mem 0x0000000040000000-0x000000005fffffff]
+[    0.000000] Movable zone start for each node
+[    0.000000] Early memory node ranges
+[    0.000000]   node   0: [mem 0x0000000040000000-0x0000000040efffff]
+[    0.000000]   node   0: [mem 0x0000000040f00000-0x0000000040f5ffff]
+[    0.000000]   node   0: [mem 0x0000000040f60000-0x000000005fffffff]
+[    0.000000] Initmem setup node 0 [mem 0x0000000040000000-0x000000005fffffff]
+[    0.000000] SBI HSM extension detected
+[    0.000000] riscv: base ISA extensions aim
+[    0.000000] riscv: ELF capabilities aim
+[    0.000000] percpu: Embedded 11 pages/cpu s22932 r0 d22124 u45056
+[    0.000000] Kernel command line: console=liteuart earlycon=liteuart,0xf0001000 rootwait root=/dev/mmcblk0p2
+[    0.000000] Dentry cache hash table entries: 65536 (order: 6, 262144 bytes, linear)
+[    0.000000] Inode-cache hash table entries: 32768 (order: 5, 131072 bytes, linear)
+[    0.000000] Built 1 zonelists, mobility grouping on.  Total pages: 130048
+[    0.000000] mem auto-init: stack:all(zero), heap alloc:off, heap free:off
+[    0.000000] Memory: 509860K/524288K available (6676K kernel code, 579K rwdata, 1040K rodata, 258K init, 249K bss, 14428K reserved, 0K cma-reserved)
+[    0.000000] SLUB: HWalign=64, Order=0-3, MinObjects=0, CPUs=2, Nodes=1
+[    0.000000] rcu: Hierarchical RCU implementation.
+[    0.000000] rcu:   RCU restricting CPUs from NR_CPUS=32 to nr_cpu_ids=2.
+[    0.000000] rcu: RCU calculated value of scheduler-enlistment delay is 10 jiffies.
+[    0.000000] rcu: Adjusting geometry for rcu_fanout_leaf=16, nr_cpu_ids=2
+[    0.000000] NR_IRQS: 64, nr_irqs: 64, preallocated irqs: 0
+[    0.000000] riscv-intc: 32 local interrupts mapped
+[    0.000000] riscv: providing IPIs using SBI IPI extension
+[    0.000000] rcu: srcu_init: Setting srcu_struct sizes based on contention.
+[    0.000000] clocksource: riscv_clocksource: mask: 0xffffffffffffffff max_cycles: 0x39a85c4118, max_idle_ns: 881590405314 ns
+[    0.000016] sched_clock: 64 bits at 125MHz, resolution 8ns, wraps every 4398046511100ns
+[    0.009649] Console: colour dummy device 80x25
+[    0.013185] Calibrating delay loop (skipped), value calculated using timer frequency.. 250.00 BogoMIPS (lpj=1250000)
+[    0.023672] pid_max: default: 32768 minimum: 301
+[    0.030352] Mount-cache hash table entries: 1024 (order: 0, 4096 bytes, linear)
+[    0.036789] Mountpoint-cache hash table entries: 1024 (order: 0, 4096 bytes, linear)
+[    0.070357] ASID allocator using 9 bits (512 entries)
+[    0.076636] rcu: Hierarchical SRCU implementation.
+[    0.080470] rcu:   Max phase no-delay instances is 1000.
+[    0.096329] smp: Bringing up secondary CPUs ...
+[    0.112853] smp: Brought up 1 node, 2 CPUs
+[    0.127451] devtmpfs: initialized
+[    0.164604] clocksource: jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 19112604462750000 ns
+[    0.173671] futex hash table entries: 512 (order: 3, 32768 bytes, linear)
+[    0.197631] NET: Registered PF_NETLINK/PF_ROUTE protocol family
+[    0.209045] DMA: preallocated 128 KiB GFP_KERNEL pool for atomic allocations
+[    0.296782] cpu1: Ratio of byte access time to unaligned word access is 0.00, unaligned accesses are slow
+[    0.389028] cpu0: Ratio of byte access time to unaligned word access is 0.00, unaligned accesses are slow
+[    0.411633] platform soc: Fixed dependency cycle(s) with /soc/interrupt-controller@f0c00000
+[    0.425596] platform soc: Fixed dependency cycle(s) with /soc/interrupt-controller@f0c00000
+[    0.475294] pps_core: LinuxPPS API ver. 1 registered
+[    0.479024] pps_core: Software ver. 5.3.6 - Copyright 2005-2007 Rodolfo Giometti <giometti@linux.it>
+[    0.488818] PTP clock support registered
+[    0.495209] FPGA manager framework
+[    0.509346] clocksource: Switched to clocksource riscv_clocksource
+[    0.732896] NET: Registered PF_INET protocol family
+[    0.739527] IP idents hash table entries: 8192 (order: 4, 65536 bytes, linear)
+[    0.760277] tcp_listen_portaddr_hash hash table entries: 512 (order: 0, 4096 bytes, linear)
+[    0.767582] Table-perturb hash table entries: 65536 (order: 6, 262144 bytes, linear)
+[    0.775539] TCP established hash table entries: 4096 (order: 2, 16384 bytes, linear)
+[    0.783714] TCP bind hash table entries: 4096 (order: 4, 65536 bytes, linear)
+[    0.791223] TCP: Hash tables configured (established 4096 bind 4096)
+[    0.797050] UDP hash table entries: 256 (order: 1, 8192 bytes, linear)
+[    0.803319] UDP-Lite hash table entries: 256 (order: 1, 8192 bytes, linear)
+[    0.825001] workingset: timestamp_bits=30 max_order=17 bucket_order=0
+[    0.836142] io scheduler mq-deadline registered
+[    0.839737] io scheduler kyber registered
+[    0.843734] io scheduler bfq registered
+[    0.854866] riscv-plic f0c00000.interrupt-controller: mapped 32 interrupts with 2 handlers for 4 contexts.
+[    0.881862] LiteX SoC Controller driver initialized
+[    2.188579] f0001000.serial: ttyLXU0 at MMIO 0x0 (irq = 12, base_baud = 0) is a liteuart
+[    2.200950] printk: legacy console [liteuart0] enabled
+[    2.200950] printk: legacy console [liteuart0] enabled
+[    2.210869] printk: legacy bootconsole [liteuart0] disabled
+[    2.210869] printk: legacy bootconsole [liteuart0] disabled
+[    2.253073] liteeth f0002000.mac eth0: irq 13 slots: tx 2 rx 2 size 2048
+[    2.261916] i2c_dev: i2c /dev entries driver
+[    2.286208] NET: Registered PF_INET6 protocol family
+[    2.307321] Segment Routing with IPv6
+[    2.311456] In-situ OAM (IOAM) with IPv6
+[    2.315245] sit: IPv6, IPv4 and MPLS over IPv4 tunneling driver
+[    2.319778] litex-mmc f0004800.mmc: LiteX MMC controller initialized.
+[    2.330547] NET: Registered PF_PACKET protocol family
+[    2.573489] clk: Disabling unused clocks
+[    2.582812] Waiting for root device /dev/mmcblk0p2...
+[    2.629711] mmc0: new SDHC card at address e624
+[    2.641982] mmcblk0: mmc0:e624 SS16G 14.8 GiB
+[    2.664809]  mmcblk0: p1 p2 p3
+[    3.179639] EXT4-fs (mmcblk0p2): orphan cleanup on readonly fs
+[    3.185424] EXT4-fs (mmcblk0p2): mounted filesystem 4faeae9e-89e3-4fc6-a016-b3226365a9f3 ro with ordered data mode. Quota mode: disabled.
+[    3.197492] VFS: Mounted root (ext4 filesystem) readonly on device 179:2.
+[    3.210392] devtmpfs: mounted
+[    3.213800] Freeing unused kernel image (initmem) memory: 252K
+[    3.218437] Kernel memory protection not selected by kernel config.
+[    3.225146] Run /sbin/init as init process
+[    9.492156] EXT4-fs (mmcblk0p2): re-mounted 4faeae9e-89e3-4fc6-a016-b3226365a9f3 r/w. Quota mode: disabled.
+[   14.862908] EXT4-fs (mmcblk0p3): recovery complete
+[   14.880100] EXT4-fs (mmcblk0p3): mounted filesystem 8ec2d4cf-11c8-48fd-89dc-2a062890a55e r/w with ordered data mode. Quota mode: disabled.
+Saving 256 bits of non-creditable seed for next boot
+Starting syslogd: OK
+Starting klogd: OK
+Running sysctl: OK
+Starting network: OK
+Starting crond: OK
+crond[94]: crond (busybox 1.37.0) started, log level 8
+
+Starting dropbear sshd: OK
+
+Welcome to Buildroot
+buildroot login:
 
 ```
 
-## Linux image
+## Customizing the linux image
 The linux image has been slightly customized from the litex initial configuration
 
   * Run from read and writable rootfs partition on SD-card by default
   * Include dropbear ssh server
-  * Include upython and dhrystone benchmark
+  * Include `micropython` and the `dhrystone-opt` benchmark
   * Mount the /dev/mmcblk0p3 partition under /root, which is also the home directory
     of the root user.
   * Initialize network interface with static IP: 192.168.1.50/24
