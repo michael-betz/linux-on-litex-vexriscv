@@ -13,3 +13,5 @@ udisksctl mount -b /dev/mmcblk0p1 || true
 for f in $FNAMES; do
 	cp images/$f /media/$USER/BOOT/
 done
+
+umount /media/$USER/BOOT/ && sync
