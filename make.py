@@ -138,6 +138,10 @@ def main():
             soc.add_constant(k, v)
 
         # SoC peripherals --------------------------------------------------------------------------
+        if board_name == "obsidian_a35":
+            from litex_boards.platforms.digilent_arty import sdcard_pmod_io
+            board.platform.add_extension(sdcard_pmod_io("pmode"))
+
         if board_name in ["arty", "arty_a7"]:
             from litex_boards.platforms.digilent_arty import _sdcard_pmod_io
             board.platform.add_extension(_sdcard_pmod_io)

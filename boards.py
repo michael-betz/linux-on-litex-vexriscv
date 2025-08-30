@@ -27,6 +27,25 @@ class Board:
         prog = self.platform.create_programmer()
         prog.flash(0, filename)
 
+
+class ObsidianA35(Board):
+    soc_kwargs = {"with_ddr3": True}
+    def __init__(self):
+        from litex_obsidian.targets import berkeleylab_obsidian
+        Board.__init__(self, berkeleylab_obsidian.BaseSoC, soc_capabilities={
+            # Communication
+            "serial",
+            "ethernet",
+            # Storage
+            "sdcard",
+            # "spiflash",
+            # GPIOs
+            "leds",
+            # Buses
+            # "spi",
+            # "i2c",
+        })
+
 #---------------------------------------------------------------------------------------------------
 # Xilinx Boards
 #---------------------------------------------------------------------------------------------------
@@ -205,7 +224,7 @@ class KCU105(Board):
 # AESKU40 support -----------------------------------------------------------------------------------
 
 class AESKU40(Board):
-    soc_kwargs = {"uart_baudrate": 115.2e3} 
+    soc_kwargs = {"uart_baudrate": 115.2e3}
     def __init__(self):
         from litex_boards.targets import avnet_aesku40
         Board.__init__(self, avnet_aesku40.BaseSoC, soc_capabilities={
@@ -451,7 +470,7 @@ class ULX4M_LD_V2(Board):
             "framebuffer",
             "video_terminal",
         })
-        
+
 # HADBadge support ---------------------------------------------------------------------------------
 
 class HADBadge(Board):
@@ -681,7 +700,7 @@ class Qmtech_EP4CE15(Board):
             "serial",
         })
 
-# ... and its bigger brother 
+# ... and its bigger brother
 
 class Qmtech_EP4CE55(Board):
     soc_kwargs = {
