@@ -37,6 +37,7 @@ Copy these files from the `linux-on-litex-vexriscv/images` directory to the BOOT
 ├── Image
 ├── opensbi.bin
 └── rv32.dtb
+└── rootfs.cpio
 ```
 
 That's it, this SD card should boot the Obsidian into linux.
@@ -310,15 +311,14 @@ buildroot login:
 ## Customizing the linux image
 The linux image has been slightly customized from the litex initial configuration
 
-  * Run from read and writable rootfs partition on SD-card by default
   * Include dropbear ssh server
   * Include `micropython` and the `dhrystone-opt` benchmark
-  * Mount the /dev/mmcblk0p3 partition under /root, which is also the home directory
-    of the root user.
   * Initialize network interface with static IP: 192.168.1.50/24
   * Mounting options and IP settings are customized under:
     `linux-on-litex-vexriscv/buildroot/board/litex_vexriscv/rootfs_overlay`. Look at
     the `fstab` and `network/interfaces` config files in this directory
+  * Mount the `mmcblk0p1` partition under `/boot` and the `mmcblk0p2` partition under `/root`.
+    This is also the home directory of the root user
 
 to customize the linux image, install buildroot, then:
 
@@ -332,14 +332,10 @@ make menuconfig
 
 make
 
-# if the build succeeds, a new rootfs image appears:
+# if the build succeeds, a new rootfs.cpio image appears, which can be copied on the SD card:
 
-ll output/images/rootfs.ext2
-  60M Aug 30 18:47 output/images/rootfs.ext2
-
-# overwrite the rootfs partition on the SD card with it
-
-sudo dd if=output/images/rootfs.ext2 of=/dev/mmcblk0p2 bs=1M
+ll output/images/rootfs.cpio
+  5.9M Aug 31 00:35 rootfs.cpio
 ```
 
 
